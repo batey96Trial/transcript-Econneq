@@ -18,7 +18,7 @@ const style = pdfEngine.StyleSheet.create({
 
 const MyPDF = () => {
     return (
-        <pdfEngine.Document>
+        <pdfEngine.Document title='HND_transcript'>
             <pdfEngine.Page size="A4" style={style.page}>
                 <PdfLetterHead />
                 <pdfEngine.View style={style.main}>
