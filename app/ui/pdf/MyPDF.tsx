@@ -1,14 +1,15 @@
+'use client'
 import * as pdfEngine from '@react-pdf/renderer'
 import PdfLetterHead from './PdfLetterHead';
 import PdfStudProfile from './PdfStudProfile';
-import ProgamDetails from './ProgamDetails';
 import PdfFooter from './PdfFooter';
+import CourseTable from './CourseTable';
 const style = pdfEngine.StyleSheet.create({
      page: {
     backgroundColor: "#fff",
     fontFamily: "Helvetica",
-    fontSize: 12,
-    lineHeight: 1.25,
+    fontSize: 11,
+    lineHeight: 1.15,
   },
   main:{
     paddingHorizontal:11,
@@ -16,14 +17,49 @@ const style = pdfEngine.StyleSheet.create({
   }
 })
 
-const MyPDF = () => {
+interface courseItem{
+  code: string,
+  subject: string,
+  credit: number,
+  grade: number,
+  nature: string
+}
+
+interface CourseByCategory{
+  fundamentals: courseItem[],
+  professional: courseItem[],
+  traversal: courseItem[]
+}
+interface totalsIface{
+  totalCredits: number,
+  gpa: number,
+  grade: string,
+  classification: string
+}
+interface student{
+    name: string,
+    domain: string,
+    specialty: string,
+    matricule: string,
+    field: string,
+    dob: string
+}
+interface computedResults{
+  totalCredits: number,
+  gpa: number,
+  grade: string,
+  classification: string
+}
+
+const MyPDF = ({courseprops,studentprops,computedResults }:{courseprops:CourseByCategory,computedResults:computedResults,studentprops:student}) => {
+
     return (
-        <pdfEngine.Document title='HND_transcript'>
+        <pdfEngine.Document>
             <pdfEngine.Page size="A4" style={style.page}>
                 <PdfLetterHead />
                 <pdfEngine.View style={style.main}>
-                <PdfStudProfile />
-                <ProgamDetails />
+                <PdfStudProfile student={studentprops} />
+                <CourseTable courses={courseprops} computedResults={computedResults} />
                 <PdfFooter/>
                 </pdfEngine.View>
             </pdfEngine.Page>
